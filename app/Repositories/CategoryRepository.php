@@ -41,8 +41,10 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function updateCategory($categoryId, array $categoryDetails)
 
     {
+        $category = Category::findOrFail($categoryId);
+        $category->update($categoryDetails);
 
-        return Category::whereId($categoryId)->update($categoryDetails);
+        return $category;
     }
 
     public function getAllActiveCategories()

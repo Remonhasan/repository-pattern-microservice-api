@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Interfaces\CategoryRepositoryInterface;
 
 use Illuminate\Http\JsonResponse;
@@ -15,22 +16,22 @@ class CategoryController extends Controller
 {
 
     private CategoryRepositoryInterface $categoryRepository;
+    private $resource;
 
     public function __construct(CategoryRepositoryInterface $categoryRepository)
 
     {
 
         $this->categoryRepository = $categoryRepository;
+        $this->resource = CategoryResource::class;
     }
 
     public function index(): JsonResponse
 
     {
-
+        $categories = $this->categoryRepository->getAllCategories();
         return response()->json([
-
-            'data' => $this->categoryRepository->getAllCategories()
-
+            'data' => CategoryResource::collection($categories)
         ]);
     }
 
@@ -38,17 +39,12 @@ class CategoryController extends Controller
 
     {
         $categoryDetails = $request->all();
-
+        $category = $this->categoryRepository->createCategory($categoryDetails);
         return response()->json(
-
             [
-
-                'data' => $this->categoryRepository->createCategory($categoryDetails)
-
+                'data' => new CategoryResource($category)
             ],
-
             Response::HTTP_CREATED
-
         );
     }
 
@@ -57,11 +53,9 @@ class CategoryController extends Controller
     {
 
         $categoryId = $request->route('id');
-
+        $category = $this->categoryRepository->getCategoryById($categoryId);
         return response()->json([
-
-            'data' => $this->categoryRepository->getCategoryById($categoryId)
-
+            'data' => new CategoryResource($category)
         ]);
     }
 
@@ -69,11 +63,9 @@ class CategoryController extends Controller
 
     {
         $categoryDetails = $request->all();
-
+        $category = $this->categoryRepository->updateCategory($id, $categoryDetails);
         return response()->json([
-
-            'data' => $this->categoryRepository->updateCategory($id, $categoryDetails)
-
+            'data' => new CategoryResource($category)
         ]);
     }
 
