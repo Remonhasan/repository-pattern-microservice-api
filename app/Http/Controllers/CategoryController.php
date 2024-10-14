@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
 use App\Interfaces\CategoryRepositoryInterface;
-
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 
 use Illuminate\Http\Request;
@@ -26,13 +26,38 @@ class CategoryController extends Controller
         $this->resource = CategoryResource::class;
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
 
     {
-        $categories = $this->categoryRepository->getAllCategories();
+        $perPage = $request->query('per_page', 2);
+        $categories = $this->categoryRepository->getAllCategories($perPage);
+
         return response()->json([
-            'data' => CategoryResource::collection($categories)
+            'data' => CategoryResource::collection($categories),
+            'meta' => [
+                'current_page' => $categories->currentPage(),
+                'last_page' => $categories->lastPage(),
+                'per_page' => $categories->perPage(),
+                'total' => $categories->total(),
+            ],
         ]);
+
+        // Using offset for Skip
+        // $offset = $request->query('offset', 2); // Default to 0 if not specified
+        // $limit = $request->query('limit', 10); // Default to 10 if not specified
+
+        // $categories = $this->categoryRepository->getAllCategories($offset, $limit);
+
+        // return response()->json([
+        //     'data' => CategoryResource::collection($categories),
+        //     // Optionally add pagination metadata
+        //     'meta' => [
+        //         'offset' => (int) $offset,
+        //         'limit' => (int) $limit,
+        //         // You can include total count if needed
+        //         'total' => Category::count(),
+        //     ],
+        // ]);
     }
 
     public function store(Request $request): JsonResponse

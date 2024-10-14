@@ -9,13 +9,16 @@ use App\Models\Category;
 class CategoryRepository implements CategoryRepositoryInterface
 
 {
-
-    public function getAllCategories()
-
+    public function getAllCategories($perPage = 10)
     {
-
-        return Category::all();
+        return Category::paginate($perPage);
     }
+
+    // Skip by offset
+    // public function getAllCategories($offset = 0, $limit = 10)
+    // {
+    //     return Category::skip($offset)->take($limit)->get();
+    // }
 
     public function getCategoryById($categoryId)
 
