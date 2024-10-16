@@ -27,4 +27,9 @@ class Category extends Model implements AuthenticatableContract, AuthorizableCon
         'status' => 'boolean',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
 }

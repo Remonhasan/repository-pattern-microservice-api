@@ -32,6 +32,9 @@ class CategoryController extends Controller
         $perPage = $request->query('per_page', 2);
         $categories = $this->categoryRepository->getAllCategories($perPage);
 
+        // using scope
+        // $categories = Category::active()->paginate($perPage);
+
         return response()->json([
             'data' => CategoryResource::collection($categories),
             'meta' => [
