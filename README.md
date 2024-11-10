@@ -1,7 +1,3 @@
-Certainly! Below is a more detailed, full documentation for your repository in the form of a `README.md`. This version includes explanations on how your code works, why you've used the Repository Pattern, the `JsonResource`, and other technical aspects of your project.
-
----
-
 # Repository Pattern REST API for Microservices
 
 This repository demonstrates how to implement a **REST API** using the **Repository Pattern** in a Laravel-based microservice. The main objective of this project is to showcase how to manage categories efficiently, abstracting the data handling through the repository pattern and utilizing **JsonResource** for API response formatting.
@@ -38,8 +34,8 @@ To get started with this repository, follow the instructions below:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/repository-pattern-rest-api-for-microservices.git
-cd repository-pattern-rest-api-for-microservices
+git clone https://github.com/Remonhasan/repository-pattern-microservice-api.git
+cd repository-pattern-microservice-api
 ```
 
 ### 2. Install Dependencies
